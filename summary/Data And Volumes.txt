@@ -1,0 +1,28 @@
+### Named Volumes - 데이터 공유 및 지속성이 필요한 경우 추천 (예: 데이터베이스).
+- Docker가 관리하며, 여러 컨테이너 간 데이터 공유 가능
+- 지속적
+- Docker가 관리
+- docker run -v volume_name:/path/in/container my-image
+
+### Anonymous Volumes - 임시 데이터를 저장하거나 빠르게 테스트할 때 사용.
+- 이름 없이 생성되며, 주로 임시 데이터 저장용
+- 지속적
+- Docker가 관리
+
+### Bind Mounts - 개발 환경에서 소스 코드나 설정 파일을 공유할 때 적합.
+- 호스트 디렉토리와 컨테이너 경로를 직접 연결
+- 지속적
+- 사용자/호스트가 관리
+- docker run -v /host/path:/path/in/container my-image
+
+### tmpfs Mounts - 성능이 중요한 임시 데이터를 처리하거나 보안상 디스크에 기록되지 않아야 할 때 사용.
+- 데이터를 메모리에 저장하며, 휘발성 데이터 처리용
+- 비지속적
+- 사용자/호스트
+- docker run --tmpfs /path/in/container my-image
+
+
+# Named Volume, Bind Mounts, tmpfs Mounts은 dockerfile에서 지정하지않음
+# Anonymous Volumes만 지정
+
+

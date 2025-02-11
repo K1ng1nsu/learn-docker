@@ -1,0 +1,52 @@
+version: '3'  # Docker Compose 파일의 버전 - 최신 버전에서는 더는 안써도 됨
+
+services:  # 실행할 서비스 정의
+  web:  # 서비스 이름 (컨테이너 이름)
+    image: nginx:latest  # 사용할 이미지
+    ports:
+      - "80:80"  # 포트 매핑 (호스트 포트:컨테이너 포트)
+    volumes:
+      - ./html:/usr/share/nginx/html  # 볼륨 마운트 (호스트 디렉토리:컨테이너 디렉토리)
+    networks:
+      - frontend  # 네트워크 지정
+    environment:
+      - NGINX_HOST=localhost  # 환경 변수
+
+  db:  # 또 다른 서비스 정의 (예: 데이터베이스)
+    image: postgres:latest  # 사용할 이미지
+    volumes:
+      - db-data:/var/lib/postgresql/data  # 볼륨 마운트
+    networks:
+      - backend  # 다른 네트워크에 연결
+    environment:
+      - POSTGRES_PASSWORD=mysecretpassword  # 환경 변수
+
+networks:  # 네트워크 정의
+  frontend:  # 네트워크 이름
+  backend:   # 네트워크 이름
+
+volumes:  # 볼륨 정의
+  db-data:  # 볼륨 이름
+
+
+
+
+services:    # 컨테이너 서비스 정의
+volumes:     # 데이터 볼륨 정의
+networks:    # 네트워크 정의
+configs:     # 외부 설정 파일 정의 (선택 사항)
+secrets:     # 비밀 데이터 정의 (선택 사항)
+
+
+services:
+  <서비스 이름>:
+    build:         # Dockerfile을 사용해 이미지를 빌드
+    image:         # 사용할 Docker 이미지
+
+    ports:         # 호스트와 컨테이너 간 포트 매핑
+    volumes:       # 볼륨 마운트 설정
+    environment:   # 환경 변수 설정
+    networks:      # 네트워크 연결
+    depends_on:    # 의존 관계 설정 (다른 서비스가 먼저 생성성) 
+    restart:       # 재시작 정책 설정
+

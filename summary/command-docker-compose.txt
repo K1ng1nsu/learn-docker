@@ -1,0 +1,137 @@
+Docker Compose 명령어 정리
+
+Docker Compose 명령어 요약
+| 명령어                          | 설명                                            
+|--------------------------------|------------------------------------------------ 
+| docker-compose up              | 서비스를 시작하고 실행 (옵션: -d 백그라운드 실행) 
+| docker-compose down            | 서비스를 중지하고 자원 제거 (옵션: -v 볼륨 삭제) 
+| docker-compose build           | 서비스를 빌드 (옵션: --no-cache 캐시 무시) 
+| docker-compose ps              | 실행 중인 서비스 상태 확인                   
+| docker-compose logs            | 컨테이너 로그 출력 (옵션: -f 실시간 로그)   
+| docker-compose exec            | 실행 중인 컨테이너에 명령어 실행               
+| docker-compose run             | 새로운 컨테이너 실행 (대화형)                 
+| docker-compose rm              | 중지된 컨테이너 삭제                         
+| docker-compose pause           | 서비스를 일시 중지                           
+| docker-compose unpause         | 일시 중지된 서비스 다시 시작                
+| docker-compose config          | docker-compose.yml 파일 파싱 및 검증        
+| docker-compose version         | Docker Compose 버전 확인                    
+| docker-compose top             | 실행 중인 서비스 프로세스 확인              
+
+
+1. 서비스 시작 및 중지
+- docker-compose up
+  정의된 서비스를 시작하고 실행
+  - 옵션:
+    - -d: 백그라운드 실행 detach mode
+    - --build: 빌드 후 실행 
+    - --force-recreate: 변경 사항에 관계없이 컨테이너를 새로 생성
+    - --no-deps: 종속 서비스 없이 실행
+    예시: 
+    docker-compose up -d           # 백그라운드 실행
+    docker-compose up --build      # 빌드 후 실행
+    docker-compose up --no-deps    # 종속 서비스 없이 실행
+
+- docker-compose down
+  실행 중인 서비스들을 중단하고, 네트워크 및 연결된 자원들을 제거
+  - 옵션:
+    - -v: 연결된 볼륨까지 삭제
+    예시:
+    docker-compose down -v         # 볼륨까지 삭제
+
+- docker-compose start
+  중지된 컨테이너들을 시작
+  예시:
+  docker-compose start
+
+- docker-compose stop
+  실행 중인 서비스들을 중지
+  예시:
+  docker-compose stop
+
+- docker-compose restart
+  실행 중인 서비스들을 재시작
+  예시:
+  docker-compose restart          # 모든 서비스 재시작
+  docker-compose restart web      # 특정 서비스 재시작
+
+2. 빌드 관련 명령어
+- docker-compose build
+  정의된 서비스를 빌드 (Dockerfile이 있을 경우 새로 빌드)
+  - 옵션:
+    - --no-cache: 캐시를 무시하고 빌드
+    - --pull: 항상 최신 이미지로 빌드
+    예시:
+    docker-compose build --no-cache  # 캐시 무시하고 빌드
+    docker-compose build --pull      # 최신 이미지로 빌드
+
+- 특정 서비스만 빌드
+  예시:
+  docker-compose build web          # 특정 서비스(web)만 빌드
+
+3. 컨테이너 로그 및 상태 확인
+- docker-compose ps
+  현재 Docker Compose로 실행되고 있는 서비스들의 상태를 확인
+  예시:
+  docker-compose ps
+
+- docker-compose logs
+  컨테이너의 로그를 출력
+  - 옵션:
+    - -f: 실시간 로그 출력
+    - --tail="숫자": 마지막 n개의 로그만 출력
+    예시:
+    docker-compose logs -f           # 실시간 로그 출력
+    docker-compose logs --tail=100   # 마지막 100개의 로그만 출력
+    docker-compose logs web          # 특정 서비스(web)의 로그만 출력
+
+4. 실행 중인 컨테이너에 명령어 실행
+- docker-compose exec
+  실행 중인 컨테이너에 명령을 실행
+  - 예시: 
+    docker-compose exec web bash     # web 서비스 컨테이너에 bash 실행
+
+- docker-compose run
+  새로운 컨테이너를 실행 (백그라운드가 아닌 대화형 실행)
+  - 옵션:
+    - --rm: 컨테이너 실행 후 자동으로 삭제
+    - -T: TTY 비활성화 (대화형 세션 필요 없는 경우)
+    예시:
+    docker-compose run --rm web bash    # 컨테이너 실행 후 삭제
+    docker-compose run -T web echo "Hello"  # 대화형 세션 없이 실행
+
+5. 컨테이너 및 자원 관리
+- docker-compose rm
+  중지된 컨테이너를 삭제
+  - 옵션:
+    - -f: 강제로 삭제
+    - -v: 볼륨까지 삭제
+    예시:
+    docker-compose rm                 # 중지된 컨테이너 삭제
+    docker-compose rm -f              # 강제 삭제
+    docker-compose rm -v              # 볼륨까지 삭제
+
+- docker-compose pause
+  실행 중인 서비스를 일시 중지
+  예시:
+  docker-compose pause
+
+- docker-compose unpause
+  일시 중지된 서비스를 다시 시작
+  예시:
+  docker-compose unpause
+
+6. 기타 유용한 명령어
+- docker-compose config
+  docker-compose.yml 파일을 파싱하고, 잘못된 구문을 확인
+  예시:
+  docker-compose config
+
+- docker-compose version
+  현재 설치된 Docker Compose의 버전을 확인
+  예시:
+  docker-compose version
+
+- docker-compose top
+  실행 중인 서비스의 프로세스를 확인
+  예시:
+  docker-compose top

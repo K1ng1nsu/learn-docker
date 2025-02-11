@@ -1,0 +1,70 @@
+##### 이미지 및 환경 설정 관련 명령어 - FROM, LABEL, ENV, ARG
+
+# FROM - 베이스 이미지 설정
+FROM node:18
+
+# LABEL - 이미지에 메타데이터 추가
+# docker inspect my-image 하면 Labels에서 확인가능
+LABEL test_label="metadata_label"
+LABEL maintainer="yourname@example.com"
+LABEL version="1.0"
+LABEL description="Python Flask 웹 애플리케이션"
+
+# ARG - 빌드 시 사용할 변수 정의 (빌드 시 변경가능)
+# docker build --build-arg APP_VERSION=2.5.0 -t my-app .
+ARG APP_VERSION=1.0
+
+# ENV - 환경 변수 설정 (빌드 후에 변경가능)
+# docker run -e APP_ENV=development -e APP_PORT=3000 my-app
+ENV NODE_ENV=production
+
+
+##### 파일 및 디렉터리 작업 관련 명령어 - WORKDIR, COPY, ADD, VOLUME
+
+# WORKDIR - 작업 디렉터리 설정
+WORKDIR /app
+
+# COPY - 로컬 파일/디렉터리를 컨테이너로 복사
+COPY package.json ./
+
+# ADD - COPY와 유사하지만 압축 해제 기능 지원
+ADD archive.tar.gz /app/
+
+# VOLUME - 컨테이너의 데이터 디렉터리를 마운트 가능하게 설정
+# Named Volume, Bind Mounts, tmpfs Mounts은 dockerfile에서 지정하지않음
+# Anonymous Volumes만 지정
+
+# 익명 볼륨 마운트 지점 설정
+VOLUME /temp-data
+
+
+##### 패키지 설치 및 빌드 관련 명령어 - RUN, ONBUILD
+
+# 컨테이너 빌드 과정에서 명령어 실행
+RUN npm install
+
+
+##### 포트 및 네트워크 설정 관련 명령어 - EXPOSE, HEALTHCHECK
+
+# EXPOSE - 포트 설정
+EXPOSE 3000
+
+# HEALTHCHECK - 컨테이너의 상태를 체크하는 명령어 실패시 unhealthy상태가 됨
+# HEALTHCHECK [OPTIONS] CMD <command>
+# [OPTIONS]:
+    - --interval=<DURATION>     두 헬스 체크 간격(기본값: 30초).
+    - --timeout=<DURATION>      헬스 체크 명령의 최대 실행 시간(기본값: 30초).
+    - --start-period=<DURATION> 컨테이너 시작 후 첫 헬스 체크까지 대기 시간(기본값: 0초).
+    - --retries=<N>             실패를 "unhealthy"로 간주하기 전 연속 실패 횟수(기본값: 3회).
+HEALTHCHECK --interval=30s --timeout=5s --retries=3 \
+  CMD curl -f http://localhost/ || exit 1
+
+##### 컨테이너 실행 관련 명령어 - CMD, ENTRYPOINT
+
+# CMD - 하나의 도커파일에 하나만 쓸 수 있음 => 여러 명령 하고싶으면 쉘 스크립트 사용 or sh -c 사용 CMD ["sh", "-c", "echo A; echo B"]
+# CMD는 덮어쓰기 가능 docker run my-image node app.js
+CMD ["node", "server.js"]
+
+# ENTRYPOINT
+# ENTRYPOINT는 덮어쓰기 불가능, 추가 인자 전달만 됨 docker run my-image ls   => "Hello, ls"
+ENTRYPOINT ["echo", "Hello,"]
