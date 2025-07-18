@@ -40,7 +40,7 @@ secrets:     # 비밀 데이터 정의 (선택 사항)
 
 services:
   <서비스 이름>:
-    build:         # Dockerfile을 사용해 이미지를 빌드
+    build:         # Dockerfile을 사용해 이미지를 빌드 -> 상세내용 찾아서 할 것
     image:         # 사용할 Docker 이미지
 
     ports:         # 호스트와 컨테이너 간 포트 매핑
