@@ -37,6 +37,17 @@
     docker cp my_container:/app/data /home/user/backup
     docker cp /home/user/my_app/src my_container:/app/
 
+// 이미지 저장 로드 - 허브를 사용 안할 때
+    docker save -o [저장할_파일_이름.tar] [이미지_이름:태그]
+
+    ex) docker save -o spring_image.tar spring:latest
+
+
+    docker load -i [저장된_파일_이름.tar]
+
+    ex) docker load -i spring_image.tar
+
+
 
 
 
