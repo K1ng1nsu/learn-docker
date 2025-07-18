@@ -33,6 +33,13 @@
         실행 중인 컨테이너 강제 삭제: docker rm -f <컨테이너 ID>
     docker exec -it <컨테이너 ID> /bin/bash: 실행 중인 컨테이너 내부에 접속
 
+    docker cp : 호스트 파일을 실행중인 도커 컨테이너에, 또는 실행중인 도커 컨테이너의 파일을 호스트에 복사
+    docker cp my_container:/app/data /home/user/backup
+    docker cp /home/user/my_app/src my_container:/app/
+
+
+
+
 4. 로그 및 상태 확인
 
     docker logs <컨테이너 ID>: 특정 컨테이너의 로그 출력
