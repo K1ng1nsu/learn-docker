@@ -40,7 +40,7 @@ secrets:     # 비밀 데이터 정의 (선택 사항)
 
 services:
   <서비스 이름>:
-    build:         # Dockerfile을 사용해 이미지를 빌드 -> 상세내용 찾아서 할 것
+    build:         # Dockerfile을 사용해 이미지를 빌드 -> 아래내용 참고
     image:         # 사용할 Docker 이미지
 
     ports:         # 호스트와 컨테이너 간 포트 매핑
@@ -50,3 +50,20 @@ services:
     depends_on:    # 의존 관계 설정 (다른 서비스가 먼저 생성성) 
     restart:       # 재시작 정책 설정
 
+
+
+
+my-app:
+    build:
+      context: ./app         # The path to the build context (required)
+      dockerfile: Dockerfile.prod # Optional: Specifies a different Dockerfile name
+      args:                  # Optional: Build arguments passed to Dockerfile
+        - MY_ARG=some_value
+        - ANOTHER_ARG=another_value
+      target: production     # Optional: Specifies a build stage (multi-stage builds)
+      cache_from:            # Optional: Images to use as cache sources
+        - my-app:latest
+      labels:                # Optional: Add metadata to the image
+        com.example.version: "1.0"
+      no_cache: true         # Optional: Do not use cache when building the image
+      pull: true             # Optional: Always attempt to pull a newer version of the image base
