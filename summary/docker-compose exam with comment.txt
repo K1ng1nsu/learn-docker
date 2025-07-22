@@ -30,7 +30,7 @@ volumes:  # 볼륨 정의
 
 
 
-
+## 아래 것들은 최상위에 위치해야함
 services:    # 컨테이너 서비스 정의
 volumes:     # 데이터 볼륨 정의
 networks:    # 네트워크 정의
